@@ -1,0 +1,71 @@
+body{
+  margin-right: auto;
+  margin-left : auto;
+      margin:0px;          /* ページ全体のmargin */
+    padding:0px;         /* ページ全体のpadding */
+    text-align:center;
+    width: 100%;
+}
+
+.verticalLine{
+    padding: 8px 19px;
+    margin: 2em 0;
+    color: #2c2c2f;
+    background: #cde4ff;
+    border-top: solid 5px #5989cf;
+    border-bottom: solid 5px #5989cf;
+}
+.verticalLine p {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.dottedSquare {
+    width: 630px;
+    height: 400px;
+    padding: 0.5em 1em;
+    margin-right: auto;
+    margin-left : auto;
+    background: #f0f7ff;
+    border: dashed 2px #5b8bd0;/*点線*/
+}
+.dottedSquare p {
+    margin: 0;
+    padding: 0;
+}
+
+.hover:hover {
+    background: #A0CA5A44;
+    border: dashed 2px #525E42;/*点線*/
+    cursor: pointer;
+}
+
+#preview {
+  width: 600px;
+  height: 370px;
+}
+
+
+.link{
+  font-size: 16px;
+}
+
+.btn-square-pop {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #fd9535;/*背景色*/
+  border-bottom: solid 2px #d27d00;/*少し濃い目の色に*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  font-weight: bold;
+}
+
+.btn-square-pop:active {
+  border-bottom: solid 2px #fd9535;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
