@@ -1,0 +1,69 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>チーム開発・テスト</title>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/jquery-3.5.0.min.js}"></script>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+
+<header id="0">
+  <!-- タイトル -->
+<p id="site_title">
+  <h1><span>アニメキャラの解析システム</span></h1>
+</p>
+</header>
+<!-- タイトル ここまで -->
+
+<body>
+<!-- 説明文 -->
+<div class="verticalLine">
+  <p>
+    深層学習（ディープラーニング）を使って、キャラクターの顔認識をおこないます。
+    <br>解析したい画像を選択してください。
+  </p>
+</div>
+<!-- 説明文 ここまで -->
+
+<form action="upload.php" th:action="@{/result}" method="post" enctype="multipart/form-data">
+  <div id="target" class="dottedSquare hover" onclick="$('#selectImage').click()">
+    <p>枠線内に画像をドラッグするか、ファイルを選択してください。</p>
+    <img id="preview">
+  </div>
+  <p><input type="file" name="upfile" id="selectImage" accept="image/*" capture="camera" display=none/></p>
+  <p><input type="submit" name="analysis" value="解析実行" /></p>
+</form>
+
+</body>
+
+<!-- javascript -->
+<!-- ドロップした画像のプレビュー処理 -->
+<script type="text/javascript">
+var target = document.getElementById('target');
+target.addEventListener('dragover', function (e) {
+	e.preventDefault();
+	e.stopPropagation();
+	e.dataTransfer.dropEffect = 'copy';
+});
+target.addEventListener('drop', function (e) {
+	e.stopPropagation();
+	e.preventDefault();
+	const reader = new FileReader();
+	reader.onload = function (e) {
+		document.getElementById('preview').src = e.target.result;
+    document.getElementById('selectImage').value = "";
+	}
+	reader.readAsDataURL(e.dataTransfer.files[0]);
+});
+</script>
+
+<!-- ファイル選択した画像のプレビュー処理 -->
+<script type="text/javascript">
+$('#selectImage').on('change', function (e) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $("#preview").attr('src', e.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+</script>

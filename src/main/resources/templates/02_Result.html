@@ -1,0 +1,35 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>チーム開発・テスト</title>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/jquery-3.5.0.min.js}"></script>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+
+<header id="0">
+  <!-- タイトル -->
+<p id="site_title">
+  <h1><span>アニメキャラの解析システム</span></h1>
+</p>
+</header>
+<!-- タイトル ここまで -->
+
+<body>
+<div class="dottedSquare">
+    <p>解析した画像を表示</p>
+    <img id="preview" width="600px" height="370px">
+</div>
+
+<!-- 説明文 -->
+<div class="verticalLine">
+  <p>
+  　解析結果などを文章で表示。
+  </p>
+</div>
+<!-- 説明文 ここまで -->
+
+<p><a th:href="@{/top}" class="link">トップに戻る</a></p>
+
+
+</body>
