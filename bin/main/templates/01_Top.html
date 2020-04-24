@@ -25,12 +25,12 @@
 </div>
 <!-- 説明文 ここまで -->
 
-<form action="upload.php" th:action="@{/result}" method="post" enctype="multipart/form-data">
+<form action="upload.php" th:action="@{/result}" th:object="${imageForm}" method="post" enctype="multipart/form-data">
   <div id="target" class="dottedSquare hover" onclick="$('#selectImage').click()">
     <p>枠線内に画像をドラッグするか、ファイルを選択してください。</p>
     <img id="preview">
   </div>
-  <p><input type="file" name="upfile" id="selectImage" accept="image/*" capture="camera" display=none/></p>
+  <p><input type="file" name="upfile" id="selectImage" accept="image/*" capture="camera"  th:field="*{image}" /></p>
   <p><input type="submit" name="analysis" value="解析実行" /></p>
 </form>
 
@@ -50,8 +50,8 @@ target.addEventListener('drop', function (e) {
 	e.preventDefault();
 	const reader = new FileReader();
 	reader.onload = function (e) {
+		document.getElementById('selectImage').value = "";
 		document.getElementById('preview').src = e.target.result;
-    document.getElementById('selectImage').value = "";
 	}
 	reader.readAsDataURL(e.dataTransfer.files[0]);
 });
