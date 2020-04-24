@@ -37,33 +37,37 @@
 </body>
 
 <!-- javascript -->
-<!-- ドロップした画像のプレビュー処理 -->
 <script type="text/javascript">
+<!-- ドロップした画像のプレビュー処理 -->
 var target = document.getElementById('target');
+
 target.addEventListener('dragover', function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	e.dataTransfer.dropEffect = 'copy';
 });
+
 target.addEventListener('drop', function (e) {
 	e.stopPropagation();
 	e.preventDefault();
-	const reader = new FileReader();
-	reader.onload = function (e) {
-		document.getElementById('selectImage').value = "";
-		document.getElementById('preview').src = e.target.result;
-	}
-	reader.readAsDataURL(e.dataTransfer.files[0]);
+    var files = e.dataTransfer.files;
+	document.getElementById('selectImage').files = files;
+	previewFile(files[0]);
 });
-</script>
 
 <!-- ファイル選択した画像のプレビュー処理 -->
-<script type="text/javascript">
 $('#selectImage').on('change', function (e) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        $("#preview").attr('src', e.target.result);
-    }
-    reader.readAsDataURL(e.target.files[0]);
+    var files = document.getElementById('selectImage').files;
+	previewFile(files[0]);
 });
+
+function previewFile(file) {
+    /* FileReaderで読み込み、プレビュー画像を表示。 */
+    var fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload = function() {
+        $("#preview").attr('src', fr.result);
+    };
+}
+
 </script>
