@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,7 +35,8 @@ public class ResultController {
         return new ImageForm();
     }
 
-    static String currentDir = "C:/Eclipse/pleiades/workspace/Python10/";
+    static String currentDir = "/home/syoum/Python/";
+    //static String currentDir = "C:/Users/syoum/pleiades/workspace/Python/";
 
     @PostMapping("/result")
     public String upload(ImageForm imageForm, Model model) throws Exception {
@@ -50,7 +53,7 @@ public class ResultController {
 
         //プレビュー画像の読み込み
         StringBuffer data = new StringBuffer();
-        String base64 = new String(Base64.encodeBase64(loadFile(imgPath)),"ASCII");
+        String base64 = new String(Base64.encodeBase64(loadFile(imgPath)));
         data.append("data:image/jpeg;base64,");
         data.append(base64);
 
@@ -75,20 +78,36 @@ public class ResultController {
     	Runtime runtime = Runtime.getRuntime();
 
     	// cmd.exeでmecab.exeを起動し指定したファイル(filePath)を形態素解析する
-    	String[] Command = { "cmd", "/c", "py test.py " + path};
+    	//String[] Command = { "/bin/sh", "-c", "python /home/syoum/Python/test.py " + path};
+    	//String[] Command = { "cmd", "/c", "python test.py " + path};
 
-    	Process p = null;
     	// 実行ディレクトリの指定
     	File dir = new File(currentDir);
+		Process p = null;
     	try {
-    		// 実行ディレクトリ(dir)でCommand(mecab.exe)を実行する
-    		p = runtime.exec(Command, null, dir);
+			ProcessBuilder processBuilder = new ProcessBuilder("/home/syoum/.pyenv/shims/python", "/home/syoum/Python/test.py", path);
+			p = processBuilder.start();
+
+    		// 実行ディレクトリ(dir)でcommand(mecab.exe)を実行する
+    		//p = runtime.exec("python /home/syoum/Python/test.py " + path, null, dir);
+    		//p = runtime.exec(Command, null, dir);
+
+
+
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
 
     	try {
-    		p.waitFor(); // プロセスの正常終了まで待機させる
+    		int ret = p.waitFor(); // プロセスの正常終了まで待機させる
+			System.out.println("戻り値:" + ret);
+			InputStream is = p.getInputStream();	//標準出力
+			printInputStream(is);
+			InputStream es = p.getErrorStream();	//標準エラー
+			printInputStream(es);
+
+			p.waitFor();
+
     	} catch (InterruptedException e) {
     		e.printStackTrace();
     	}
@@ -167,5 +186,19 @@ public class ResultController {
     		return null;
         }
     }
+
+
+	public static void printInputStream(InputStream is) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		try {
+			for (;;) {
+				String line = br.readLine();
+				if (line == null) break;
+				System.out.println(line);
+			}
+		} finally {
+			br.close();
+		}
+	}
 
 }
